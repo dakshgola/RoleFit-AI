@@ -2,7 +2,7 @@
 
 > **A multi-agent AI system that researches target companies, analyzes interview patterns, and matches your resume against job descriptions to generate a personalized placement prep report.**
 
-[🚀 Live Demo](https://rolefit-ai.streamlit.app) *(Note: Replace with your actual Streamlit Cloud deployment URL once live)*
+[🚀 Live Demo]([https://rolefit-ai.streamlit.app](https://rolefit-ai-5pafls932299wgs2ovtu2g.streamlit.app/)) 
 
 ![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.35+-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
