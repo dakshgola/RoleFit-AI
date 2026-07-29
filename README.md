@@ -12,12 +12,6 @@ RoleFit AI is a multi-agent placement research assistant that automates corporat
 
 ---
 
-## 📸 Application Screenshot
-
-![RoleFit AI Dashboard](screenshot.png)
-
----
-
 ## 💡 Why This Project?
 
 Unlike typical corporate research tools that print generic trivia, **RoleFit AI places the candidate's custom background at the center of the prep pipeline.** 
