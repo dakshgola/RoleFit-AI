@@ -15,14 +15,28 @@ from pipeline import run_placement_pipeline
 
 app = FastAPI(title="PlacementPrep AI Backend API")
 
-# Configure CORS
+# Configure CORS origins
+allowed_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://rolefit-ai.vercel.app"
+]
+
+frontend_env = os.getenv("FRONTEND_URL")
+if frontend_env and frontend_env.rstrip("/") not in allowed_origins:
+    allowed_origins.append(frontend_env.rstrip("/"))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.on_event("startup")
+async def startup_event():
+    print(f"[CORS] Configured allowed origins: {allowed_origins}")
 
 @app.post("/analyze")
 async def analyze_placement(
@@ -115,3 +129,7 @@ async def analyze_placement(
             yield f"data: {json.dumps(event)}\n\n"
             
     return StreamingResponse(sse_generator(), media_type="text/event-stream")
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}

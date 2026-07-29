@@ -40,7 +40,8 @@ function App() {
         formData.append('company2', company2);
       }
 
-      const response = await fetch('http://localhost:8000/analyze', {
+      const backendUrl = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
+      const response = await fetch(`${backendUrl}/analyze`, {
         method: 'POST',
         body: formData
       });
