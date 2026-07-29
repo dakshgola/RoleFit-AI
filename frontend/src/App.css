@@ -1,0 +1,526 @@
+/* Reset & Core Styling */
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0F172A;
+  color: #E2E8F0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* App Container */
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Header Section */
+.app-header {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #1E293B;
+  padding-bottom: 20px;
+}
+
+.app-header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  margin: 0 0 8px 0;
+}
+
+.app-header p {
+  color: #94A3B8;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Main Grid Layout */
+.app-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .app-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Cards & Containers */
+.card {
+  background-color: #1E293B;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
+}
+
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  color: #F8FAFC;
+  font-weight: 700;
+}
+
+/* Input Fields */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #94A3B8;
+  margin-bottom: 8px;
+}
+
+.input-group input[type="text"],
+.input-group textarea {
+  background-color: #0F172A;
+  color: #F8FAFC;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group input[type="text"]:focus,
+.input-group textarea:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 1px #3B82F6;
+}
+
+/* File Uploader Dropzone */
+.hidden-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.file-dropzone {
+  border: 2px dashed #334155;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  background-color: #0F172A;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.file-dropzone.active {
+  border-color: #3B82F6;
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.file-dropzone.has-file {
+  border-color: #10B981;
+  background-color: rgba(16, 185, 129, 0.02);
+}
+
+.dropzone-label {
+  cursor: pointer;
+  color: #94A3B8;
+  font-size: 0.95rem;
+}
+
+.file-name {
+  color: #10B981;
+  font-weight: 600;
+}
+
+/* Buttons */
+.primary-btn {
+  background-color: #2563EB;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+  padding: 14px 24px;
+  font-weight: 600;
+  font-size: 1rem;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.primary-btn:hover:not(:disabled) {
+  background-color: #1D4ED8;
+}
+
+.primary-btn:disabled {
+  background-color: #1E293B;
+  color: #64748B;
+  border: 1px solid #334155;
+  cursor: not-allowed;
+}
+
+.caption {
+  font-size: 0.8rem;
+  color: #64748B;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+/* Pipeline Status Panel */
+.status-panel hr {
+  border: 0;
+  border-top: 1px solid #334155;
+  margin-bottom: 20px;
+}
+
+.steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.status-step {
+  display: flex;
+  align-items: center;
+  font-size: 1.05rem;
+}
+
+.status-indicator {
+  margin-right: 14px;
+  font-size: 1.3rem;
+  display: inline-block;
+  width: 24px;
+  text-align: center;
+}
+
+.step-waiting .step-label {
+  color: #64748B;
+}
+
+.step-running .step-label {
+  color: #3B82F6;
+  font-weight: 600;
+}
+
+.step-done .step-label {
+  color: #10B981;
+}
+
+/* Results section styling */
+.results-container {
+  margin-top: 40px;
+  border-top: 1px solid #1E293B;
+  padding-top: 30px;
+}
+
+.results-container h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+.expanders-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.expander {
+  border: 1px solid #334155;
+  border-radius: 6px;
+  background-color: #1E293B;
+  overflow: hidden;
+}
+
+.expander-trigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: none;
+  border: none;
+  color: #F8FAFC;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+
+.expander-trigger:hover {
+  background-color: #2D3748;
+}
+
+.expander-content {
+  padding: 20px;
+  border-top: 1px solid #334155;
+  background-color: #0F172A;
+  color: #CBD5E1;
+  line-height: 1.6;
+}
+
+/* Report Section */
+.report-card {
+  padding: 30px;
+  background-color: #1E293B;
+}
+
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.report-header h3 {
+  margin: 0;
+}
+
+.download-btn {
+  background-color: #10B981;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.download-btn:hover {
+  background-color: #059669;
+}
+
+.report-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.download-pdf-btn {
+  background-color: #2563EB;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.download-pdf-btn:hover {
+  background-color: #1D4ED8;
+}
+
+.report-markdown-body {
+  color: #E2E8F0;
+  line-height: 1.7;
+}
+
+.report-markdown-body h1, 
+.report-markdown-body h2, 
+.report-markdown-body h3 {
+  color: #F8FAFC;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.report-markdown-body h2 {
+  border-bottom: 1px solid #334155;
+  padding-bottom: 8px;
+}
+
+.report-markdown-body ul, 
+.report-markdown-body ol {
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+
+.report-markdown-body li {
+  margin-bottom: 6px;
+}
+
+.report-markdown-body hr {
+  border: 0;
+  border-top: 1px solid #334155;
+  margin: 24px 0;
+}
+
+.report-markdown-body blockquote {
+  border-left: 4px solid #3B82F6;
+  background-color: #0F172A;
+  padding: 12px 20px;
+  margin: 16px 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.report-markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.report-markdown-body th, 
+.report-markdown-body td {
+  border: 1px solid #334155;
+  padding: 12px;
+  text-align: left;
+}
+
+.report-markdown-body th {
+  background-color: #0F172A;
+  color: #F8FAFC;
+  font-weight: 600;
+}
+
+.report-markdown-body tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.01);
+}
+
+.error-message {
+  padding: 16px;
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid #EF4444;
+  color: #FCA5A5;
+  border-radius: 6px;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+/* Interactive Checklist styles */
+.checklist-card {
+  margin-top: 30px;
+  padding: 30px;
+}
+
+.checklist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 8px;
+}
+
+.checklist-header h3 {
+  margin: 0;
+}
+
+.checklist-badge {
+  background-color: #1E293B;
+  border: 1px solid #334155;
+  color: #10B981;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.checklist-sub {
+  color: #94A3B8;
+  font-size: 0.95rem;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 24px;
+  background-color: #0F172A;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 4px 12px;
+  height: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background-color: rgba(16, 185, 129, 0.2);
+  border-right: 2px solid #10B981;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  position: relative;
+  z-index: 2;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #10B981;
+  margin-left: auto;
+}
+
+.checklist-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background-color: #0F172A;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.checklist-item:hover {
+  background-color: #1E293B;
+  border-color: #475569;
+}
+
+.checklist-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: #10B981;
+}
+
+.checklist-text {
+  font-size: 0.95rem;
+  color: #E2E8F0;
+  line-height: 1.5;
+  user-select: none;
+}
+
+.checklist-item.completed {
+  border-color: rgba(16, 185, 129, 0.3);
+  background-color: rgba(16, 185, 129, 0.01);
+}
+
+.checklist-item.completed .checklist-text {
+  text-decoration: line-through;
+  color: #64748B;
+}
