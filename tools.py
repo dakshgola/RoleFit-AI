@@ -104,15 +104,3 @@ def parse_resume(file_path: str) -> str:
     except Exception as e:
         return f"Error parsing PDF resume: {str(e)}"
 
-def extract_text_from_pdf(pdf_file) -> str:
-    """Extract text content from an uploaded PDF file stream (used in Streamlit app)."""
-    try:
-        reader = PdfReader(pdf_file)
-        pages_text = []
-        for page in reader.pages:
-            text = page.extract_text()
-            if text:
-                pages_text.append(text)
-        return "\n".join(pages_text)
-    except Exception as e:
-        return f"Error reading PDF file: {str(e)}"
