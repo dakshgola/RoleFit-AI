@@ -1,125 +1,142 @@
-# PlacementPrep AI
+# RoleFit AI
+> **Live Demo:** [https://rolefit-ai.vercel.app/](https://rolefit-ai.vercel.app/)
 
-An AI-powered agentic application designed to help candidates perform corporate research on target companies, analyze interview formats/rounds, map their skill gaps, and generate customized day-by-day preparation plans. Built with LangChain, Streamlit, and Google Gemini API.
+RoleFit AI is a multi-agent placement research assistant that automates corporate intelligence gathering, interview mining, and resume-JD alignment. It conducts deep research on target companies, scrapes community forums for interview patterns, maps candidate skill gaps, and generates a structured day-by-day preparation schedule with interactive action checklists.
 
-## Architecture Diagram
+[![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![LangChain](https://img.shields.io/badge/LangChain-0.1-1C3C3C?style=for-the-badge&logo=chainlink&logoColor=white)](https://langchain.com/)
+[![Google Gemini](https://img.shields.io/badge/Gemini-Pro-8E75C2?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
+
+---
+
+## 📸 Application Screenshot
+
+![RoleFit AI Dashboard](screenshot.png)
+
+---
+
+## 💡 Why This Project?
+
+Unlike typical corporate research tools that print generic trivia, **RoleFit AI places the candidate's custom background at the center of the prep pipeline.** 
+
+By executing a specialized **Resume-JD Skill Gap Analysis**, the system:
+1. Performs a line-by-line comparison of candidate projects and tools against specific technical requirements in the Job Description.
+2. Formulates an **Estimated Readiness Score** based on direct stack overlap.
+3. Automatically adapts a **14-day study plan** focusing exclusively on bridging identified gaps (e.g., PostgreSQL DB connectivity, distributed transactions, scale systems).
+4. Generates an **Interactive Action Checklist** persisted in browser `localStorage` to track task completion as the user gets interview-ready.
+
+---
+
+## 🏗️ Architecture Diagram
 
 ```text
-                  +----------------------------------------------+
-                  |               Streamlit Dashboard            |
-                  |                   (app.py)                   |
-                  +-------+------------------------------+-------+
-                          |                              ^
-        1. User Inputs    |                              |  5. Renders Prep Report
-       (Company, Resume,  v                              |     & raw data tabs
-        Job Description)  +------------------------------+-------+
-                          |        Orchestration Pipeline        |
-                          |             (pipeline.py)            |
-                          +-------+----------------------+-------+
-                                  |                      |
-            2. Run Agents         |                      | 4. Compile Report
-                                  v                      v
-                +-----------------+--+        +----------+-----------+
-                |    LangChain Agents|        |   LangChain Chains   |
-                |    (agents.py)     |        |     (agents.py)      |
-                +----+---------------+        +----+-----------------+
-                | - CompanyResearch  |        | - skill_gap_chain    |
-                | - InterviewPattern |        | - report_writer_chain|
-                +----+---------------+        +----------------------+
-                     |
-        3. Web tools |
-                     v
-                +----+---------------+
-                |  Pipeline Tools    |
-                |    (tools.py)      |
-                +--------------------+
-                | - web_search       |
-                | - scrape_url       |
-                | - parse_resume     |
-                +--------------------+
+               +----------------------------------------+
+               |             React Frontend             |
+               |            (Vite on Port 5173)         |
+               +-------------------+--------------------+
+                                   |
+                  POST /analyze    |  Server-Sent Events (SSE)
+                  (Form + PDF)     |  [Progress & Final Report JSON]
+                                   v
+               +-------------------+--------------------+
+               |            FastAPI Backend             |
+               |          (Uvicorn on Port 8000)        |
+               +-------------------+--------------------+
+                                   |
+                  Orchestrates 4-Step Pipeline Flow:
+                                   |
+      Step 1: Company Research Agent (Tavily Search + Gemini LLM)
+                                   |
+      Step 2: Interview Pattern Agent (Reddit/Glassdoor/LeetCode Discuss scraping)
+                                   |
+      Step 3: Skill Gap Chain (Custom parsing: Resume PDF vs. Pasted JD)
+                                   |
+      Step 4: Report Writer Chain (Side-by-side comparison table compiling)
 ```
 
-## Features
+---
 
-- **Company Intelligence**: Searches the web to identify core business domains, news, and organizational values.
-- **Interview Mining**: Evaluates typical interview stages and pulls likely questions from community forums (Glassdoor, Reddit, LeetCode Discuss style sources).
-- **Skill Gap Analysis**: Compares a PDF resume directly against a job description, outputting matching skills, critical gap areas, and Estimated Readiness scores.
-- **Unified Prep Report**: Compiles all findings into a structured day-by-day 2-week preparation calendar with pre-interview checklists.
+## 🛠️ Setup & Local Installation
 
-## Setup Instructions
-
-### 1. Clone or Download the Project
-Ensure you are inside the project root directory `AI-RESEARCHER`.
-
-### 2. Create and Activate a Virtual Environment
-Set up a clean environment to install dependencies:
-
-**On macOS/Linux:**
+### 1. Clone the Repository
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+git clone https://github.com/dakshgola/RoleFit-AI.git
+cd RoleFit-AI
 ```
 
-**On Windows (PowerShell):**
-```powershell
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-```
+### 2. Backend Setup (FastAPI)
+1. Navigate to the root directory and create a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: .\venv\Scripts\Activate.ps1
+   ```
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Set up environment variables inside a new `.env` file in the root directory:
+   ```env
+   GEMINI_API_KEY=your-gemini-api-key-here
+   TAVILY_API_KEY=your-tavily-api-key-here
+   ```
+4. Run the FastAPI development server:
+   ```bash
+   uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
+   ```
+   The backend will be live at `http://127.0.0.1:8000`.
 
-**On Windows (Command Prompt):**
-```cmd
-python -m venv venv
-venv\Scripts\activate
-```
+### 3. Frontend Setup (Vite + React)
+1. Navigate to the `frontend/` folder:
+   ```bash
+   cd frontend
+   ```
+2. Install NPM packages:
+   ```bash
+   npm install
+   ```
+3. Set up frontend configuration:
+   Create a `.env.local` inside `frontend/` (if pointing to a custom hosted backend URL):
+   ```env
+   VITE_API_URL=http://localhost:8000
+   ```
+4. Launch the Vite development server:
+   ```bash
+   npm run dev -- --host 127.0.0.1 --port 5173
+   ```
+   Open your browser and navigate to `http://127.0.0.1:5173`.
 
-### 3. Install Dependencies
-Install all required libraries inside the virtual environment:
-```bash
-pip install -r requirements.txt
-```
+---
 
-### 4. Configure Environment Variables
-Duplicate `.env.example` and name the file `.env`:
-```bash
-cp .env.example .env
-```
-Open `.env` and fill in your credentials:
-```env
-GEMINI_API_KEY=your-gemini-api-key-here
-TAVILY_API_KEY=your-tavily-api-key-here
-```
+## 🚀 Cloud Deployment
 
-## Running the Application
+### 1. Backend Deployment (Render)
+1. Create an account on [Render](https://render.com/).
+2. Click **New** -> **Web Service** and connect this repository.
+3. Configure the following build settings:
+   - **Environment**: `Python`
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
+4. Add the following **Environment Variables** in Render's settings:
+   - `GEMINI_API_KEY`
+   - `TAVILY_API_KEY`
+5. Note the deployed URL (e.g. `https://rolefit-ai-backend.onrender.com`).
 
-### Running the Web Interface (Streamlit)
-To launch the dashboard interface:
-```bash
-streamlit run app.py
-```
+### 2. Frontend Deployment (Vercel)
+1. Create an account on [Vercel](https://vercel.com/).
+2. Click **Add New** -> **Project** and import this repository.
+3. In the project configure settings:
+   - **Root Directory**: Select `frontend/`
+   - **Framework Preset**: `Vite`
+4. In the **Environment Variables** section, add:
+   - `VITE_API_URL` = (Your Render backend URL, e.g. `https://rolefit-ai-backend.onrender.com`)
+5. Click **Deploy**.
 
-### Running the Command Line Interface (CLI Test)
-You can also run the pipeline end-to-end via CLI for testing:
-```bash
-python pipeline.py
-```
+---
 
 > [!NOTE]
-> **Rate Limit Safeguards & Quota Warnings**:
-> - **Gemini free tier**: check current RPM/RPD limits at ai.google.dev before a live demo.
+> **API limits and safeguards**:
+> - **Gemini free tier**: check current RPM/RPD limits at ai.google.dev before running a live demo.
 > - **Tavily free tier**: 1000 searches/month — each analysis run uses ~2-3 searches.
-
-
-## Streamlit Community Cloud Deployment
-
-To deploy this application on [Streamlit Community Cloud](https://streamlit.io/cloud):
-1. Push the code to a public GitHub repository (ensuring `.env` is ignored by `.gitignore`).
-2. Connect your repo to Streamlit Cloud.
-3. Open **Advanced Settings** -> **Secrets** in the Streamlit Cloud dashboard and add the following keys:
-```toml
-GEMINI_API_KEY = "your-gemini-api-key"
-TAVILY_API_KEY = "your-tavily-api-key"
-```
-
-## Sample Screenshot
-
-![Dashboard Screenshot Placeholder](https://raw.githubusercontent.com/streamlit/streamlit/main/examples/assets/streamlit-logo.png)
