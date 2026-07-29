@@ -1,68 +1,73 @@
 # RoleFit AI
-> **AI-Powered Multi-Agent Placement Research Assistant**
 
-RoleFit AI is an agentic application designed to help job candidates perform automated company research, analyze interview questions/rounds, map their specific resume skill gaps against job descriptions, and generate customized preparation reports. Built with LangChain, Streamlit, and Google Gemini API.
+> **A multi-agent AI system that researches target companies, analyzes interview patterns, and matches your resume against job descriptions to generate a personalized placement prep report.**
 
----
+[🚀 Live Demo](https://rolefit-ai.streamlit.app) *(Note: Replace with your actual Streamlit Cloud deployment URL once live)*
 
-## 📸 Application Screenshot
-
-![RoleFit AI Dashboard](screenshot.png)
-
----
-
-## 💡 Why This Project?
-
-Unlike generic trivia-search tools, **RoleFit AI places the candidate's custom background at the center of the preparation pipeline.**
-
-By executing a specialized **Resume-JD Skill Gap Analysis**, the system:
-1. Performs a line-by-line comparison of candidate projects and tools against specific technical requirements in the Job Description.
-2. Formulates an **Estimated Readiness Score** based on direct stack overlap.
-3. Automatically adapts a **14-day study plan** focusing exclusively on bridging identified gaps (e.g., PostgreSQL DB connectivity, distributed transactions, scale systems).
-4. Highlights the skill gap analysis in a prominent visual container inside the dashboard.
+![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat-square&logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.35+-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-0.2+-1C3C3C?style=flat-square&logo=chainlink&logoColor=white)
+![Google Gemini](https://img.shields.io/badge/Google_Gemini-Pro-8E75C2?style=flat-square&logo=google&logoColor=white)
 
 ---
 
-## 🏗️ Architecture Diagram
+## 🎯 What It Does
+
+RoleFit AI automates the job interview preparation workflow by deploying autonomous AI agents to research target organizations, discover recent interview formats and community-shared questions (from Glassdoor, Reddit, and LeetCode Discuss), and construct a 14-day study plan tailored to the applicant's exact technical profile.
+
+---
+
+## ⭐ Key Feature: Resume-JD Skill Gap Analysis
+
+Unlike standard research tools that only output static company trivia, **RoleFit AI performs a direct, line-by-line comparison between the candidate's PDF resume and the target Job Description.**
+
+It calculates an **Estimated Readiness Score**, extracts exact matched and missing technical skills (e.g., PostgreSQL vs. MySQL, system design concepts, frameworks), and generates an actionable **2-week preparation calendar** designed exclusively to bridge those specific background gaps before the interview.
+
+---
+
+## ⚙️ How It Works
 
 ```text
-                  +----------------------------------------------+
-                  |              Streamlit Dashboard             |
-                  |                   (app.py)                   |
-                  +-------+------------------------------+-------+
-                          |                              ^
-        1. User Inputs    |                              |  5. Renders Prep Report
-       (Company, Resume,  v                              |     & raw data tabs
-        Job Description)  +------------------------------+-------+
-                          |        Orchestration Pipeline        |
-                          |             (pipeline.py)            |
-                          +-------+----------------------+-------+
-                                  |                      |
-            2. Run Agents         |                      | 4. Compile Report
-                                  v                      v
-                +-----------------+--+        +----------+-----------+
-                |    LangChain Agents|        |   LangChain Chains   |
-                |    (agents.py)     |        |     (agents.py)      |
-                +----+---------------+        +----+-----------------+
-                | - CompanyResearch  |        | - skill_gap_chain    |
-                | - InterviewPattern |        | - report_writer_chain|
-                +----+---------------+        +----------------------+
-                     |
-        3. Web tools |
-                     v
-                +----+---------------+
-                |  Pipeline Tools    |
-                |    (tools.py)      |
-                +--------------------+
-                | - web_search       |
-                | - scrape_url       |
-                | - parse_resume     |
-                +--------------------+
+Company Name + Role + JD + Resume
+               │
+               ▼
+   ┌───────────────────────┐
+   │ Company Research Agent│ (Web Search & Tavily Scraping)
+   └───────────┬───────────┘
+               │
+               ▼
+   ┌───────────────────────┐
+   │Interview Pattern Agent│ (Glassdoor / Reddit / LeetCode Discuss Mining)
+   └───────────┬───────────┘
+               │
+               ▼
+   ┌───────────────────────┐
+   │Skill Gap AnalysisChain│ (Resume PDF Parsing vs. JD Keyword Matching)
+   └───────────┬───────────┘
+               │
+               ▼
+   ┌───────────────────────┐
+   │  Report Writer Chain  │ (Markdown Preparation Report Generation)
+   └───────────┬───────────┘
+               │
+               ▼
+    Final Prep Report (.md)
 ```
 
 ---
 
-## 🛠️ Setup & Local Installation
+## 🛠️ Tech Stack
+
+- **Core Language**: Python 3.9+
+- **Frontend Dashboard**: Streamlit
+- **Agentic Framework**: LangChain
+- **LLM Engine**: Google Gemini API (`gemma-4-31b-it` / `gemini-1.5-pro`)
+- **Search & Scraping API**: Tavily Search API, BeautifulSoup4
+- **PDF Extraction**: PyPDF
+
+---
+
+## 🚀 Setup & Run Locally
 
 ### 1. Clone the Repository
 ```bash
@@ -70,42 +75,31 @@ git clone https://github.com/dakshgola/RoleFit-AI.git
 cd RoleFit-AI
 ```
 
-### 2. Create and Activate Virtual Environment
+### 2. Set Up Virtual Environment & Dependencies
 
 **On macOS/Linux:**
 ```bash
 python3 -m venv venv
 source venv/bin/activate
+pip install -r requirements.txt
 ```
 
 **On Windows (PowerShell):**
 ```powershell
 python -m venv venv
 .\venv\Scripts\Activate.ps1
-```
-
-### 3. Install Dependencies
-```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure Environment Variables
+### 3. Configure API Keys
 Create a `.env` file in the root directory:
 ```env
-GEMINI_API_KEY=your-gemini-api-key-here
-TAVILY_API_KEY=your-tavily-api-key-here
+GEMINI_API_KEY=your_gemini_api_key_here
+TAVILY_API_KEY=your_tavily_api_key_here
 ```
 
-### 5. Launch the Streamlit App
-To launch the Streamlit dashboard:
+### 4. Launch the App
 ```bash
 streamlit run app.py
 ```
-Open your browser at `http://localhost:8501`.
-
----
-
-> [!NOTE]
-> **API limits and safeguards**:
-> - **Gemini free tier**: check current RPM/RPD limits at ai.google.dev before running a live demo.
-> - **Tavily free tier**: 1000 searches/month — each analysis run uses ~2-3 searches.
+*(Or if running directly via virtual environment Python: `.\venv\Scripts\python.exe -m streamlit run app.py`)*
