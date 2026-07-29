@@ -1,7 +1,6 @@
 # RoleFit AI
 
 > **A multi-agent AI system that researches target companies, analyzes interview patterns, and matches your resume against job descriptions to generate a personalized placement prep report.**
-
 [🚀 Live Demo](https://rolefit-ai-5pafls932299wgs2ovtu2g.streamlit.app/)
 
 ![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat-square&logo=python&logoColor=white)
